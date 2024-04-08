@@ -169,31 +169,49 @@ def display_all_courses():
     return jsonify(all_courses)
 
 
-# Adds a student to a course given a student and course id in json format
+# Adds or removes a student to a course given a student and course id as well as operation in json format
 @app.route('/enroll', methods=['POST'])
-def add_enrollment():
+def enrollment():
     student_id = request.json['student_id']
     course_id = request.json['course_id']
+    operation = request.json.get('operation', 'none')
+
+    if operation != 'add' and operation != 'remove':
+        return jsonify({'error': 'Operation unknown.'}), 400
 
     user = User.query.get(student_id)
     if not user or user.role != 'student':
-        return jsonify({'error': 'User does not exist, or user is not a student and cannot be enrolled.'}), 400
+        return jsonify({'error': 'User does not exist, or user is not a student and cannot be enrolled.'}), 404
 
     course = Courses.query.get(course_id)
     if not course:
         return jsonify({'error': 'Course does not exist. Please create a course.'}), 404
 
-    if course.taken >= course.capacity:
-        return jsonify({'error': 'Course is at full capacity. Try adding another course.'}), 400
-
     existing_enrollment = Enrollment.query.filter_by(student_id=student_id, course_id=course_id).first()
-    if existing_enrollment:
-        return jsonify({'error': 'Student is already enrolled in this course. Try adding another course.'}), 400
 
-    new_user = Enrollment(student_id=student_id, course_id=course_id)
-    db.session.add(new_user)
-    course.taken += 1
-    db.session.commit()
+    if operation == 'add':
+        if course.taken >= course.capacity:
+            return jsonify({'error': 'Course is at full capacity. Try adding another course.'}), 400
+
+        if existing_enrollment:
+            return jsonify({'error': 'Student is already enrolled in this course. Try adding another course.'}), 400
+
+        new_user = Enrollment(student_id=student_id, course_id=course_id)
+        db.session.add(new_user)
+        course.taken = min(course.taken + 1, course.capacity)   # Ensures that seats does not exceed capacity
+        db.session.commit()
+
+        return jsonify({'message': 'User enrolled successfully.', 'id': new_user.id}), 201
+
+    if operation == 'remove':
+        if not existing_enrollment:
+            return jsonify({'error': 'Student is not enrolled in this course.'}), 404
+
+        db.session.delete(existing_enrollment)
+        course.taken = max(course.taken - 1, 0)     # Ensures that seats does not fall below 0
+        db.session.commit()
+
+        return jsonify({'message': 'User unenrolled successfully.'}), 201
 
     # # below used for testing
     # enrollment = Enrollment.query.filter_by(student_id=student_id, course_id=course_id).first()
@@ -201,25 +219,24 @@ def add_enrollment():
     # print(course.course_name)
     # print(enrollment.grade)
 
-    return jsonify({'message': 'User enrolled successfully.', 'id': new_user.id}), 201
+    return jsonify({'error': 'An unknown error has occurred.'}), 400
 
-
-@app.route('/student/<int:student_id>/courses', methods=['GET'])
+# Display all courses, with enrolled being true if a student is enrolled in that class given a student id
+@app.route('/course/<int:student_id>', methods=['GET'])
 def display_student_enrolled_courses(student_id):
-    enrollments = Enrollment.query.filter_by(student_id=student_id).all()
-
     student = User.query.get(student_id)
     if not student or student.role != 'student':
         return jsonify({'error': 'Student not found or not a student'}), 404
 
-    if not enrollments:
+    courses = Courses.query.all()
+
+    if not courses:
         return jsonify({'error': 'Course does not exist. Please create a course.'}), 404
 
     all_courses = []
-    for enrollment in enrollments:
-        course = Courses.query.get(enrollment.course_id)
+    for course in courses:
+        is_enrolled = Enrollment.query.filter_by(student_id=student_id, course_id=course.id).first() is not None
         if course:
-            # return jsonify({'error': 'No teacher exists.'}), 404
             teacher = User.query.get(course.teacher_id)
             teacher_full_name = teacher.first_name + " " + (
                 (teacher.middle_name + " ") if teacher.middle_name else '') + teacher.last_name
@@ -228,7 +245,8 @@ def display_student_enrolled_courses(student_id):
                            'teacher_full_name': teacher_full_name,
                            'time': course.time,
                            'total_seats': course.capacity,
-                           'taken_seats': course.taken
+                           'taken_seats': course.taken,
+                           'is_enrolled': is_enrolled
                            }
 
             all_courses.append(course_info)
