@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/const.css" rel="stylesheet">
+    <title>Dashboard - VoiceAdvance</title>
+  </head>
+<body>
+<div id="popup-wrapper"><div class="popup"><div class="close-button" onclick="closePopup()"></div><div id="popup-body">
+  
+</div></div></div>
+<wrapper>
+  <header>
+    <div  class="title"><img class="western_digital-logo" src="/images/icons/logo.svg">VoiceAdvance</div>
+    <div class="account-tab">
+      
+      <div class="profile-pic"><img src="/images/avatar.jpg" alt="" /></div><div class="account-name">Julien</div>
+    </div>
+  </header>
+  
+  <content>
+    <div class="operation-bar">
+      <div style="display:inline;float:right;">
+        <a class="operation-button" onclick="toggle_view()">Toggle View</a>
+        <a class="operation-button">Search</a>
+        <input class="search" placeholder="Search" type="text">
+        <a class="button">New Claim <span style="font-size:150%">+</span></a>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction: row-reverse;">
+    <div class="sidebar">
+      <div class="dropdown">
+        <a onclick="this.parentElement.classList.toggle('open')" class="title">Claims<img src="images/icons/arrow.svg"></a>
+        <div class="content">
+          <a>All</a>
+          <a>Active</a>
+          <a>Manage</a> 
+        </div>
+      </div>
+      <div class="personal-statistics">
+        <p>Personal Statistics</p>
+        <hr>
+        <div class="wrapper">
+          <div class="stat">
+            <center id="stat-postcount">0</center>
+            Posts
+          </div>
+          <div class="stat">
+            <center id="stat-resolvedcount">0</center>
+            Resolved
+          </div>
+          <div class="stat">
+            <center id="stat-upvotecount">0</center>
+            Upvotes
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div id="claim-list" class="claim-list line">
+      <div class="claim-wrapper">
+        <div class="status "><div></div>Open</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      <div class="claim-wrapper">
+        <div class="status filled"><div></div>Resolved</div>
+        <div class="title">Claim Title</div>
+        <hr>
+        <div class="description">The pain itself is very important, and it is followed by the education of the elitist, but at such a time it happens that there is a great deal of work and pain. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come out; they are in fault who abandon their duties and soften their hearts, that is toil.</div>
+        <div class="upvote">+1</div>
+      </div>
+      
+    </div>
+  </div>
+  </content>
+</wrapper>
+  <div class="footer"></div>
+</div>
+
+<script src="/const.js"></script>
+</body>
+</html>

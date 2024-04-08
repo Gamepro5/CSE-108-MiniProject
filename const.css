@@ -1,0 +1,109 @@
+
+@font-face {
+  font-family: "title";
+  src: url(/css/fonts/Reghteous/Righteous-Regular.ttf) format("truetype");
+}
+@font-face {
+    font-family: "default";
+    src: url(/css/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf) format("truetype");
+}
+html {
+  height: 100%;
+}
+#welcome-text {
+  position: absolute;
+  padding: 10px;
+}
+#logout-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  padding: 10px;
+}
+#back_arrow {
+  position: absolute;
+  padding: 5px;
+  cursor: pointer;
+}
+#back_arrow img {
+  width: 40px;
+}
+body {
+  margin: 0px;
+  background-color: rgb(218 227 243);
+  overscroll-behavior: none;
+  font-family: 'default',sans-serif;
+  font-size: larger;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+wrapper {
+  display: flex;
+  max-width: calc(100% - 500px);
+  min-width: 500px;
+  width: 100%;
+  margin: auto;
+  flex-direction: column;
+  height: 100%;
+}
+sitetitle {
+  display: block;
+  width: 100%;
+  height:100px;
+}
+nav {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+}
+.nav_button {
+  display:inline-block;
+  border: #2f528f solid 1px;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+.nav_button.pressed {
+  background-color: #4472c4;
+  color: white;
+}
+.nav_button div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin: auto;
+  height: 100%;
+}
+content {
+  display: block;
+  background-color: #4472c4;
+  border: #2f528f solid 1px;
+  height: calc(100% - 200px);
+}
+content div {
+  width: 100%;
+  height: 100%;
+}
+.login {
+  width: 300px;
+  margin: auto;
+}
+.button {
+  display: inline-block;
+  border: #2f528f solid 1px;
+  background-color: #4472c4;
+  text-decoration: none;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+  border-radius: 10px;
+  color: white;
+}
+.button :active {
+  color: white;
+  text-decoration: none;
+}
