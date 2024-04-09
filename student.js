@@ -1,13 +1,114 @@
 
+var studentId = 0;
+
 document.getElementById('my_courses_button').onclick = () => {
     document.getElementById('my_courses_button').classList.add('pressed')
     document.getElementById('add_courses_button').classList.remove('pressed')
     document.getElementById('my_courses').style.display = "block";
     document.getElementById('add_courses').style.display = "none";
+    HTTPRequest_loadMyCourses();
 }
 document.getElementById('add_courses_button').onclick = () => {
     document.getElementById('my_courses_button').classList.remove('pressed')
     document.getElementById('add_courses_button').classList.add('pressed')
     document.getElementById('my_courses').style.display = "none";
     document.getElementById('add_courses').style.display = "block";
+    HTTPRequest_loadAllCourses();
+}
+
+function HTTPRequest_loadAllCourses() {
+    /*  INPUTS: student ID global variable (studentId)
+        OUTPUTS: ARRAY OF JSONS of all the classes with an added "enrolled" parameter that is true if the student is enrolled.
+
+
+        [{ "id": 1, "name": "CSE 155", "teacher_full_name": "Ammon Hepworth", "time" : "MWF 2:00-2:50 PM", "total_seats": 10, "taken_seats": 5, "enrolled": true}, ...]
+    
+        Call loadAllCourses(data); when data is in the format mentioned above.
+    */
+    
+}
+function HTTPRequest_loadMyCourses() { 
+    /*  INPUTS: student ID global variable (studentId)
+        OUTPUTS: ARRAY OF JSONS of the classes the student is in.
+
+
+        [{ "id": 1, "name": "CSE 155", "teacher_full_name": "Ammon Hepworth", "time" : "MWF 2:00-2:50 PM", "total_seats": 10, "taken_seats": 5}, ...]
+    
+        Call loadMyCourses(data); when data is in the format mentioned above.
+    */
+}
+HTTPRequest_loadMyCourses()
+
+function addCourse(course_id) {
+    /*  
+        INPUTS: student ID global variable (studentId), course_id, and "operation" set to "add"
+        OUTPUTS: nothing
+
+        This should add a course to a student's catalog.
+    */
+}
+
+function removeCourse(course_id) {
+    /*  
+        INPUTS: student ID global variable (studentId), course_id, and "operation" set to "add"
+        OUTPUTS: nothing
+
+        This should remove a course from a student's catalog.
+    */
+}
+
+function loadMyCourses(obj) {
+    
+    document.getElementById('add_courses').innerHTML = ``;
+    
+    document.getElementById('my_courses').innerHTML = `<table id="resultTable"></table>`
+    let table = document.getElementById('resultTable');
+    table.innerHTML = ``;
+    var keys = Object.keys(obj[0]);
+    var row = table.insertRow();
+    row.insertCell().textContent = "Course Name";
+    row.insertCell().textContent = "Teacher";
+    row.insertCell().textContent = "Time";
+    row.insertCell().textContent = "Students Enrolled";
+    
+    for (var i=0;i<obj.length;i++) {
+        var row = table.insertRow();
+            row.insertCell().textContent = obj[i]['name'];
+            row.insertCell().textContent = obj[i]['teacher_full_name'];
+            row.insertCell().textContent = obj[i]['time'];
+            row.insertCell().textContent = obj[i]['taken_seats']+'/'+obj[i]['total_seats'];
+    }
+}
+
+function loadAllCourses(obj) {
+    
+    document.getElementById('my_courses').innerHTML = ``;
+    
+    document.getElementById('add_courses').innerHTML = `<table id="resultTable"></table>`
+    let table = document.getElementById('resultTable');
+    console.log(table)
+    table.innerHTML = ``;
+    var keys = Object.keys(obj[0]);
+    var row = table.insertRow();
+    row.insertCell().textContent = "Course Name";
+    row.insertCell().textContent = "Teacher";
+    row.insertCell().textContent = "Time";
+    row.insertCell().textContent = "Students Enrolled";
+    row.insertCell().textContent = "Add/Drop Class";
+    
+    for (var i=0;i<obj.length;i++) {
+        console.log(obj[i]['name']);
+        var row = table.insertRow();
+            row.insertCell().textContent = obj[i]['name'];
+            row.insertCell().textContent = obj[i]['teacher_full_name'];
+            row.insertCell().textContent = obj[i]['time'];
+            row.insertCell().textContent = obj[i]['taken_seats']+'/'+obj[i]['total_seats'];
+            if (obj[i]['enrolled']) {
+                var cell = row.insertCell();
+                cell.innerHTML = `<button id=` + obj[i]['id'] +` onclick="removeCourse(this.id)">Drop</button>`;
+            } else {
+                var cell = row.insertCell();
+                cell.innerHTML = `<button id=` + obj[i]['id'] +` onclick="addCourse(this.id)">Add</button>`;
+            }
+    }
 }

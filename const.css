@@ -107,3 +107,27 @@ content div {
   color: white;
   text-decoration: none;
 }
+table {
+  margin: auto;
+  padding-top: 50px;
+}
+td {
+  border: #dde3f2 solid 2px; 
+}
+tr:nth-child(even) {
+  background-color: #d2d5e9;
+}
+tr:nth-child(odd) {
+  background-color: #eaebf5;
+}
+tr:first-child {
+  background-color: #9aaada;
+}
+.link {
+  color: -webkit-link;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.link:active {
+  color: -webkit-activelink;
+}
