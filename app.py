@@ -113,6 +113,20 @@ def display_course_students(course_id):
     # The order will be different than shown above. This should not affect anything.
     return jsonify(students)
 
+# Display all students in a course given a course id
+@app.route('/course/<int:course_id>/get_name', methods=['GET'])
+def get_course_name(course_id):
+    course = Courses.query.get(course_id)
+
+    if not course:
+        return jsonify({'error': 'This course does not exist.'}), 404
+
+    course_name = {
+        'course_name': course.course_name
+    }
+
+    return jsonify(course_name)
+
 
 # Display the courses taught by a teacher given their username (assuming user is a teacher)
 @app.route('/teacher/<int:teacher_id>/courses', methods=['GET'])
@@ -221,7 +235,7 @@ def enrollment():
 
 # Display only the courses a student is taking, given a student id
 @app.route('/student/<int:student_id>/courses', methods=['GET'])
-def display_student_enrolled_courses(student_id):
+def display_only_student_courses(student_id):
     enrollments = Enrollment.query.filter_by(student_id=student_id).all()
 
     student = User.query.get(student_id)

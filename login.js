@@ -8,7 +8,22 @@ document.getElementById('login_button').onclick = () => {
 
         Call redirect(type, username, id); when the outputs are met.
     */
-    
+
+    fetch(`http://localhost:5000/login`, {  // This route seems to redirect instead of returning anything
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+        }),
+    })
+    .then(response => response.text())
+    .then(data => alert(data))
+    .catch(error => console.error('Error:', error));
+
+    // redirect(type, username, id);    // Commented out for now because /login route only redirects
 }
 
 function redirect(type, username, id) {
