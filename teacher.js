@@ -29,7 +29,7 @@ function createClassTable(obj) {
     
 }
 
-function HTTPRequest_loadAllCourses() {
+function HTTPRequest_loadAllCourses(teacher_id) {
     /*  INPUTS: teacher ID global variable (teacherId)
         OUTPUTS: ARRAY OF JSONS of all the classes taught by that teacher
 
@@ -38,6 +38,30 @@ function HTTPRequest_loadAllCourses() {
     
         Call loadAllCourses(data); when data is in the format mentioned above.
     */
+
+    fetch(`http://localhost:5000/teacher/${teacher_id}/courses`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)   // 'data' should be an array of jsons with courses a teacher teaches
+
+            // From there, use the json from 'data' for your purposes
+            // And remember to use response.status to handle errors
+
+            for (let i = 0; i < data.length; i++){
+                const course_data = data[i]
+
+                // These logs print each course detail for reference.
+                console.log(course_data.id)
+                console.log(course_data.name)
+                console.log(course_data.teacher_full_name)
+                console.log(course_data.time)
+                console.log(course_data.total_seats)
+                console.log(course_data.taken)
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 function loadAllCourses(data) {
@@ -51,7 +75,7 @@ function loadAllCourses(data) {
     createClassTable(data)
 }
 
-function HTTPRequest_openClass(course_id, courseName) {
+function HTTPRequest_openClass(course_id) {
     /*  INPUTS: course_id
         OUTPUTS: ARRAY OF JSONS of all the students enrolled in a class.
 
@@ -60,6 +84,27 @@ function HTTPRequest_openClass(course_id, courseName) {
     
         Call openClass(data, courseName, course_id); when data is in the format mentioned above.
     */
+
+    fetch(`http://localhost:5000/course/${course_id}/students`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)   // 'data' should be an array of jsons with all students in a course
+
+            // From there, use the json from 'data' for your purposes
+            // And remember to use response.status to handle errors
+
+            for (let i = 0; i < data.length; i++){
+                const course_data = data[i]
+
+                // These logs print each course detail for reference.
+                console.log(course_data.id)
+                console.log(course_data.student_name)
+                console.log(course_data.grade)
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 function openClass(studentList, courseName, courseId) {
@@ -84,6 +129,26 @@ function editGrade(student_id, course_id, grade) {
 
         This should edit a grade of a student in a specific course.
     */
+
+    fetch(`http://localhost:5000/update_grade`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            student_id: student_id,
+            course_id: course_id,
+            grade: grade,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // 'data' is a json message stating if operation is successful or not
+
+            // Remember to use response.status to handle errors and print message from 'data'
+        })
+
+
 }
 
 loadAllCourses()

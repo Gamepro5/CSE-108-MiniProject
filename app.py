@@ -115,21 +115,18 @@ def display_course_students(course_id):
 
 
 # Display the courses taught by a teacher given their username (assuming user is a teacher)
-@app.route('/teacher/<username>/courses', methods=['GET'])
-def display_teacher_courses(username):
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({'error': 'User not found.'}), 404
+@app.route('/teacher/<int:teacher_id>/courses', methods=['GET'])
+def display_teacher_courses(teacher_id):
+    teacher = User.query.get(teacher_id)
+    if not teacher or teacher.role != 'teacher':
+        return jsonify({'error': 'User not, or user is not a teacher.'}), 404
 
-    if user.role != 'teacher':
-        return jsonify({'error': 'This user is not a teacher.'}), 403
-
-    teacher_courses = Courses.query.filter_by(teacher_id=user.id).all()
+    teacher_courses = Courses.query.filter_by(teacher_id=teacher.id).all()
     if not teacher_courses:
         return jsonify({'error': 'Teacher does not have any courses.'}), 404
 
-    teacher_full_name = user.first_name + " " + (
-        (user.middle_name + " ") if user.middle_name else '') + user.last_name
+    teacher_full_name = teacher.first_name + " " + (
+        (teacher.middle_name + " ") if teacher.middle_name else '') + teacher.last_name
 
     all_courses = [{'id': course.id,
                     'name': course.course_name,
@@ -221,6 +218,40 @@ def enrollment():
 
     return jsonify({'error': 'An unknown error has occurred.'}), 400
 
+
+# Display only the courses a student is taking, given a student id
+@app.route('/student/<int:student_id>/courses', methods=['GET'])
+def display_student_enrolled_courses(student_id):
+    enrollments = Enrollment.query.filter_by(student_id=student_id).all()
+
+    student = User.query.get(student_id)
+    if not student or student.role != 'student':
+        return jsonify({'error': 'Student not found or not a student'}), 404
+
+    if not enrollments:
+        return jsonify({'error': 'Course does not exist. Please create a course.'}), 404
+
+    all_courses = []
+    for enrollment in enrollments:
+        course = Courses.query.get(enrollment.course_id)
+        if course:
+            # return jsonify({'error': 'No teacher exists.'}), 404
+            teacher = User.query.get(course.teacher_id)
+            teacher_full_name = teacher.first_name + " " + (
+                (teacher.middle_name + " ") if teacher.middle_name else '') + teacher.last_name
+            course_info = {'id': course.id,
+                           'name': course.course_name,
+                           'teacher_full_name': teacher_full_name,
+                           'time': course.time,
+                           'total_seats': course.capacity,
+                           'taken_seats': course.taken
+                           }
+
+            all_courses.append(course_info)
+
+    return jsonify(all_courses)
+
+
 # Display all courses, with enrolled being true if a student is enrolled in that class given a student id
 @app.route('/course/<int:student_id>', methods=['GET'])
 def display_student_enrolled_courses(student_id):
@@ -246,7 +277,7 @@ def display_student_enrolled_courses(student_id):
                            'time': course.time,
                            'total_seats': course.capacity,
                            'taken_seats': course.taken,
-                           'is_enrolled': is_enrolled
+                           'enrolled': is_enrolled
                            }
 
             all_courses.append(course_info)

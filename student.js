@@ -16,7 +16,8 @@ document.getElementById('add_courses_button').onclick = () => {
     HTTPRequest_loadAllCourses();
 }
 
-function HTTPRequest_loadAllCourses() {
+// Noticed that these functions were missing parameters, which are needed so that information can be collected from the database
+function HTTPRequest_loadAllCourses(student_id) {
     /*  INPUTS: student ID global variable (studentId)
         OUTPUTS: ARRAY OF JSONS of all the classes with an added "enrolled" parameter that is true if the student is enrolled.
 
@@ -25,9 +26,33 @@ function HTTPRequest_loadAllCourses() {
     
         Call loadAllCourses(data); when data is in the format mentioned above.
     */
-    
+
+    fetch(`http://localhost:5000/course/${student_id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)   // 'data' should be an array of jsons with all courses and if student is enrolled in that course
+
+            // From there, use the json from 'data' for your purposes
+            // And remember to use response.status to handle errors
+
+            for (let i = 0; i < data.length; i++){
+                const course_data = data[i]
+
+                // These logs print each course detail for reference.
+                console.log(course_data.id)
+                console.log(course_data.name)
+                console.log(course_data.teacher_full_name)
+                console.log(course_data.time)
+                console.log(course_data.total_seats)
+                console.log(course_data.taken)
+                console.log(course_data.is_enrolled)
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
-function HTTPRequest_loadMyCourses() { 
+function HTTPRequest_loadMyCourses(student_id) {
     /*  INPUTS: student ID global variable (studentId)
         OUTPUTS: ARRAY OF JSONS of the classes the student is in.
 
@@ -36,25 +61,95 @@ function HTTPRequest_loadMyCourses() {
     
         Call loadMyCourses(data); when data is in the format mentioned above.
     */
-}
-HTTPRequest_loadMyCourses()
 
-function addCourse(course_id) {
+    fetch(`http://localhost:5000/student/${student_id}/courses`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)   // 'data' should be an array of jsons with only the courses a student is taking
+
+            // From there, use the json from 'data' for your purposes
+            // And remember to use response.status to handle errors
+
+            for (let i = 0; i < data.length; i++){
+                const course_data = data[i]
+
+                // These logs print each course detail for reference.
+                console.log(course_data.id)
+                console.log(course_data.name)
+                console.log(course_data.teacher_full_name)
+                console.log(course_data.time)
+                console.log(course_data.total_seats)
+                console.log(course_data.taken)
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+// HTTPRequest_loadMyCourses() // Is this intended?
+
+function addCourse(student_id, course_id) {
     /*  
         INPUTS: student ID global variable (studentId), course_id, and "operation" set to "add"
         OUTPUTS: nothing
 
         This should add a course to a student's catalog.
     */
+
+    var operation = "add";
+
+    fetch(`http://localhost:5000/enroll`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            student_id: student_id,
+            course_id: course_id,
+            operation: operation,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)   // 'data' is a json message stating if operation is successful or not
+
+            // Remember to use response.status to handle errors and print message from 'data'
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
-function removeCourse(course_id) {
+function removeCourse(student_id, course_id) {
     /*  
-        INPUTS: student ID global variable (studentId), course_id, and "operation" set to "add"
+        INPUTS: student ID global variable (studentId), course_id, and "operation" set to "remove"
         OUTPUTS: nothing
 
         This should remove a course from a student's catalog.
     */
+
+    var operation = "remove";
+
+    fetch(`http://localhost:5000/enroll`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            student_id: student_id,
+            course_id: course_id,
+            operation: operation,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)   // 'data' is a json message stating if operation is successful or not
+
+            // Remember to use response.status to handle errors and print message from 'data'
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 function loadMyCourses(obj) {
