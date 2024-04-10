@@ -1,5 +1,14 @@
 var teacherId = 0;
 
+const params = new URLSearchParams(window.location.search);
+for (const p of params) {
+    if (p[0] == "id") {
+        teacherId = p[1]
+    } else if (p[0] == "username") {
+        document.getElementById('welcome-text').innerText = "Welcome, " + p[1];
+    }
+}
+
 document.getElementById('back_arrow').onclick = () => {
     document.getElementById('course_name_header').innerHTML = `<div>My Courses</div>`
     document.getElementById('back_arrow').style.display = "none";
@@ -165,7 +174,7 @@ function editGrade(student_id, course_id, grade) {
     })
 }
 
-loadAllCourses()
+HTTPRequest_loadAllCourses()
 
 function teacherOpenCourse() {
 document.getElementById('back_arrow').style.display = "inline";

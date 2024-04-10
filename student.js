@@ -1,6 +1,15 @@
 
 var studentId = 0;
 
+const params = new URLSearchParams(window.location.search);
+for (const p of params) {
+    if (p[0] == "id") {
+        studentId = p[1]
+    } else if (p[0] == "username") {
+        document.getElementById('welcome-text').innerText = "Welcome, " + p[1];
+    }
+}
+
 document.getElementById('my_courses_button').onclick = () => {
     document.getElementById('my_courses_button').classList.add('pressed')
     document.getElementById('add_courses_button').classList.remove('pressed')
