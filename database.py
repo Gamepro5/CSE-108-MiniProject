@@ -5,13 +5,13 @@
 # with app.app_context():
 #     db.create_all()
 
-from app import app     # Assuming flask app is named "app" and initialized
+from app import db     # Assuming flask app is named "app" and initialized
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
-app.config['SECRET_KEY'] = 'mysecretkey'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
+# app.config['SECRET_KEY'] = 'mysecretkey'
+# db = SQLAlchemy(app)
 
 
 # Database for storing users and their passwords and roles
