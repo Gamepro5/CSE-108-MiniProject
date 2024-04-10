@@ -12,7 +12,7 @@ for (const p of params) {
 document.getElementById('back_arrow').onclick = () => {
     document.getElementById('course_name_header').innerHTML = `<div>My Courses</div>`
     document.getElementById('back_arrow').style.display = "none";
-    HTTPRequest_loadAllCourses(teacher_id)
+    HTTPRequest_loadAllCourses(teacherId)
 }
 
 function createClassTable(obj) {
