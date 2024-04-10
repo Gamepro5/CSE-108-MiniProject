@@ -15,14 +15,14 @@ document.getElementById('my_courses_button').onclick = () => {
     document.getElementById('add_courses_button').classList.remove('pressed')
     document.getElementById('my_courses').style.display = "block";
     document.getElementById('add_courses').style.display = "none";
-    HTTPRequest_loadMyCourses();
+    HTTPRequest_loadMyCourses(studentId);
 }
 document.getElementById('add_courses_button').onclick = () => {
     document.getElementById('my_courses_button').classList.remove('pressed')
     document.getElementById('add_courses_button').classList.add('pressed')
     document.getElementById('my_courses').style.display = "none";
     document.getElementById('add_courses').style.display = "block";
-    HTTPRequest_loadAllCourses();
+    HTTPRequest_loadAllCourses(studentId);
 }
 
 // Noticed that these functions were missing parameters, which are needed so that information can be collected from the database
@@ -99,7 +99,7 @@ function HTTPRequest_loadMyCourses(student_id) {
         console.error('Error:', error);
     });
 }
-// HTTPRequest_loadMyCourses() // Is this intended?
+HTTPRequest_loadMyCourses(studentId)
 
 function addCourse(student_id, course_id) {
     /*  

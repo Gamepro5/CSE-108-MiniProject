@@ -12,7 +12,7 @@ for (const p of params) {
 document.getElementById('back_arrow').onclick = () => {
     document.getElementById('course_name_header').innerHTML = `<div>My Courses</div>`
     document.getElementById('back_arrow').style.display = "none";
-    loadAllCourses()
+    HTTPRequest_loadAllCourses(teacher_id)
 }
 
 function createClassTable(obj) {
@@ -174,7 +174,7 @@ function editGrade(student_id, course_id, grade) {
     })
 }
 
-HTTPRequest_loadAllCourses()
+HTTPRequest_loadAllCourses(teacher_id)
 
 function teacherOpenCourse() {
 document.getElementById('back_arrow').style.display = "inline";
