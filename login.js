@@ -20,17 +20,26 @@ document.getElementById('login_button').onclick = () => {
         }),
     })
     .then(response => response.text())
-    .then(data => alert(data))
+    .then(data => {
+        alert(data)
+        fetch(`http://localhost:5000/get_user/${username}`)
+            .then(response => response.json())
+            .then(details => {
+                console.log(details)
+                var type = details.role
+                var id = details.id
+                redirect(type, username, id);
+            })
+    })
     .catch(error => console.error('Error:', error));
 
-    // redirect(type, username, id);    // Commented out for now because /login route only redirects
 }
 
 function redirect(type, username, id) {
     if (type == "teacher") {
-        window.location.replace("localhost:8080/teacher?name=" + username + "&id=" + id);
+        window.location.replace("localhost:5000/teacher?name=" + username + "&id=" + id);
     } else if (type == "student") {
-        window.location.replace("localhost:8080/student?name=" + username + "&id=" + id);
+        window.location.replace("localhost:5000/student?name=" + username + "&id=" + id);
     } else {
         alert("Error: Invalid account type.")
     }

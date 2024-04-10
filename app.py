@@ -1,6 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy # Handled in database.py
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_cors import CORS
+import os
 
 # app = Flask(__name__, template_folder='.')  # Changed template folder to main folder
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db' # Handled in database.py
@@ -24,6 +26,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, template_folder='.')
+    CORS(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school.db'
     app.config['SECRET_KEY'] = 'mysecretkey'
@@ -346,6 +349,39 @@ def create_app():
                     (student.middle_name + " ") if student.middle_name else '') + student.last_name
 
         return jsonify({'message': f'Grade updated to {new_grade} for student {student_full_name} in course {course.course_name}.'}), 200
+
+    @app.route('/login.js')
+    def serve_js():
+        return send_from_directory(os.getcwd(), 'login.js')
+
+
+    @app.route('/const.js')
+    def serve_j2s():
+        return send_from_directory(os.getcwd(), 'const.js')
+
+    @app.route('/const.css')
+    def serve_j3s():
+        return send_from_directory(os.getcwd(), 'const.css')
+
+
+    @app.route('/student.js')
+    def serve_j4s():
+        return send_from_directory(os.getcwd(), 'student.js')
+
+
+    @app.route('/teacher.js')
+    def serve_j5s():
+        return send_from_directory(os.getcwd(), 'teacher.js')
+
+
+    @app.route('/get_user/<username>', methods=['GET'])
+    def get_user_info(username):
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return jsonify({'id': user.id, 'role': user.role}), 200
+        else:
+            return jsonify({'error': 'User not found'}), 404
+
 
     return app
 
